@@ -92,42 +92,79 @@ void LinkedList<T>::insertOrdered(const T& newData) {
   // go in the list. A good way to do this is by considering special
   // base cases first, then walk the list from front to back and find
   // the earliest position where you should insert the new node.
-  
-  // When you insert the node, make sure to update any and all pointers
-  // between it and adjacent nodes accordingly (next and prev pointers).
-  // You may also need to update the head_ and tail_ pointers in some
-  // cases. Also update the size_ variable of the list.
+  Node* newNode = new Node(newData);
+  // std::cout << "inserted value" << newNode->data << std::endl;
+  if (!head_) {
+    head_ = newNode;
+    tail_ = newNode;
+  }
+  else
+  {
+    Node* oldHead = head_;
+    Node* oldTail = tail_;
+    // std::cout << "old head: "<< (oldHead->data) << std::endl;
+    // std::cout << "old tail: "<< (oldTail->data) << std::endl;
 
-  // There are explicit examples of how to do all those things in the
-  // other provided code for this project!
+    if (newNode->data <= oldHead->data){
+      oldHead->prev = newNode;
+      newNode->next = oldHead;
+      head_ = newNode;
+    }
+    else if (newNode->data >= oldTail->data){
+      oldTail->next = newNode;
+      newNode->prev = oldTail;
+      tail_ = newNode;
+    }
+    else{
+    
+    // When you insert the node, make sure to update any and all pointers
+    // between it and adjacent nodes accordingly (next and prev pointers).
+    // You may also need to update the head_ and tail_ pointers in some
+    // cases. Also update the size_ variable of the list.
 
-  // More hints:
-  
-  // First, practice your technique for traversing the list from front
-  // to back. You can see examples of several ways to do this throughout
-  // the provided code for this project. We recommend that you try using
-  // a temporary pointer that you update to track your position as you
-  // traverse from node to node.
-  
-  // Consider all the cases that can happen when you're trying to insert
-  // the new node. Is the list currently empty? Does the new node go
-  // at the beginning? Does it go somewhere in the middle? Does it go
-  // at the end? Remember that this is a doubly-linked list, so there
-  // may be prev and next pointers to adjust on both sides of the node
-  // that you insert.
+    // There are explicit examples of how to do all those things in the
+    // other provided code for this project!
 
-  // Be careful to make your conditional cases mutually exclusive when
-  // necessary. Are you using "else" where you should?
+    // More hints:
+    
+    // First, practice your technique for traversing the list from front
+    // to back.  We recommend that you try using a temporary pointer that 
+    // you update to track your position as you traverse from node to node.
+    Node* tempptr = nullptr;
+    Node* nextnode = head_;
+    while (nextnode->next){
+      tempptr = nextnode;
+      nextnode = nextnode -> next;
+      // std::cout << "current location: "<< (tempptr->data) << std::endl;
+      // std::cout << "next location: "<< (nextnode->data) << std::endl;
+      if ((newNode->data <= nextnode->data) && (newNode->data >= tempptr->data)){
+        tempptr->next = newNode;
+        nextnode->prev = newNode;
+        newNode->prev = tempptr;
+        newNode->next = nextnode;
+      }
+    }
+    // Consider all the cases that can happen when you're trying to insert
+    // the new node. Is the list currently empty? Does the new node go
+    // at the beginning? Does it go somewhere in the middle? Does it go
+    // at the end? Remember that this is a doubly-linked list, so there
+    // may be prev and next pointers to adjust on both sides of the node
+    // that you insert.
 
-  // Don't dereference a null pointer, ever! Always make sure the logic
-  // checks for that before dereferencing. This is the most common cause
-  // of crashes. The test program will show you which test cases are
-  // causing you issues with that. A common issue is that when students
-  // traverse an empty list or when they traverse to the end of the list,
-  // they don't handle the null pointer at the tail properly. Be careful
-  // to update all next, prev, head_, and tail_ pointers as needed on your
-  // new node or on those existing nodes that are adjacent to the new node.
+    // Be careful to make your conditional cases mutually exclusive when
+    // necessary. Are you using "else" where you should?
 
+    // Don't dereference a null pointer, ever! Always make sure the logic
+    // checks for that before dereferencing. This is the most common cause
+    // of crashes. The test program will show you which test cases are
+    // causing you issues with that. A common issue is that when students
+    // traverse an empty list or when they traverse to the end of the list,
+    // they don't handle the null pointer at the tail properly. Be careful
+    // to update all next, prev, head_, and tail_ pointers as needed on your
+    // new node or on those existing nodes that are adjacent to the new node.
+    }
+  }
+  size_++;
 }
 
 /********************************************************************
@@ -243,6 +280,16 @@ LinkedList<T> LinkedList<T>::merge(const LinkedList<T>& other) const {
   //    time or worse, and not O(n).
   // 4. Remember, DO NOT try to use insertOrdered here. That would be
   //    very slow.
+  std::cout << left.size() << std::endl;
+  std::cout << right.size() << std::endl;
+  // merged.size() = left.size() + right.size();
+  // left->prev = nullptr;
+  // right->prev = nullptr;
+  // left->next = left->head;
+  // right->next = right->head;
+  // std::cout << "old head: "<< (left->next) << std::endl;
+  // std::cout << "old tail: "<< (right->next) << std::endl;
+
 
   // -----------------------------------------------------------
 
