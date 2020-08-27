@@ -265,7 +265,40 @@ LinkedList<T> LinkedList<T>::merge(const LinkedList<T>& other) const {
   // -----------------------------------------------------------
   // Please implement this function according to the description
   // above and in the instructions PDF.
+  Node* thiscur = head_;
+  Node* othercur = other.head_;
+  
+  Node* thistail = tail_;
+  Node* othertail = other.tail_;
+  
+  while ((thiscur) || (othercur)){
+    if (thiscur && othercur){
+      if (thiscur->data >= othercur->data){
+        merged.pushBack(othercur->data);
+        othercur = othercur->next;
+      }
+      else {
+        merged.pushBack(thiscur->data);
+        thiscur = thiscur->next;
+      }
+    }
 
+    if (!thiscur){
+      while (othercur)
+      {
+        merged.pushBack(othercur->data);
+        othercur = othercur->next;
+      }
+    }
+
+    if (!othercur){
+      while (thiscur)
+      {
+        merged.pushBack(thiscur->data);
+        thiscur = thiscur->next;
+      }
+    }
+  }
   // Hints:
   // 1. Assuming that the left and right lists are already sorted, remember
   //    that the smallest items are already available at the front. You can
@@ -280,16 +313,6 @@ LinkedList<T> LinkedList<T>::merge(const LinkedList<T>& other) const {
   //    time or worse, and not O(n).
   // 4. Remember, DO NOT try to use insertOrdered here. That would be
   //    very slow.
-  std::cout << left.size() << std::endl;
-  std::cout << right.size() << std::endl;
-  // merged.size() = left.size() + right.size();
-  // left->prev = nullptr;
-  // right->prev = nullptr;
-  // left->next = left->head;
-  // right->next = right->head;
-  // std::cout << "old head: "<< (left->next) << std::endl;
-  // std::cout << "old tail: "<< (right->next) << std::endl;
-
 
   // -----------------------------------------------------------
 
